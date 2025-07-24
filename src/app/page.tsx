@@ -132,22 +132,22 @@ export default function Home() {
             className="relative w-full h-screen scroll-mt-24 flex items-center justify-center"
           >
             <div className="relative w-full h-full max-w-screen-xl mx-auto px-4 sm:px-6">
-              <Image
-                src={img.src}
-                alt={img.alt}
-                fill
-                priority={index < 2}
-                placeholder="blur"
-                blurDataURL="/placeholder.webp"
-                className="object-contain w-full h-full"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 100vw"
-                onError={(e) => {
-                  e.currentTarget.src = "/fallback.webp";
-                }}
-              />
-              {/* <div className="absolute bottom-8 left-4 sm:left-8 bg-black/80 px-4 sm:px-6 py-2 sm:py-3 rounded-xl text-lg sm:text-2xl font-semibold text-yellow-300 shadow-md">
-                {img.alt}
-              </div> */}
+             <Image
+  src={img.src}
+  alt={img.alt}
+  fill
+  loading={index === 0 ? "eager" : "lazy"}
+  decoding="async"
+  placeholder={index < 2 ? "blur" : "empty"}
+  blurDataURL={index < 2 ? "/placeholder.webp" : undefined}
+  className="object-contain w-full h-full"
+  sizes="100vw"
+  onError={(e) => {
+    e.currentTarget.src = "/fallback.webp";
+  }}
+/>
+
+           
             </div>
           </motion.section>
         ))}
