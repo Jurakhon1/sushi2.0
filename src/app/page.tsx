@@ -1,10 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
 import Image from "next/image";
 import { MenuIcon, XIcon } from "lucide-react";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 const images = [
   { src: "/new1.webp", alt: "New 1", id: "2" },
@@ -49,51 +49,28 @@ const categories = [
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [visibleSections, setVisibleSections] = useState<number[]>([]);
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const index = Number(entry.target.getAttribute("data-index"));
-          if (entry.isIntersecting && !visibleSections.includes(index)) {
-            setVisibleSections((prev) => [...prev, index]);
-          }
-        });
-      },
-      { threshold: 0.25 }
-    );
-
-    const sections = document.querySelectorAll(".lazy-section");
-    sections.forEach((el) => observer.observe(el));
-
-    return () => observer.disconnect();
-  }, [visibleSections]);
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   return (
-    <div className="bg-black text-white min-h-screen">
+    <div className="bg-black text-white min-h-screen w-full overflow-x-hidden">
       <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-yellow-500/30 shadow-lg">
         <div className="max-w-screen-xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2 text-yellow-400 font-bold text-xl sm:text-2xl">
             <span>Menu</span>
           </div>
           <button
-            className="sm:hidden text-yellow-400 focus:outline-none"
+            className="sm:hidden text-yellow-400"
             onClick={toggleMenu}
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           >
             {isMenuOpen ? <XIcon size={24} /> : <MenuIcon size={24} />}
           </button>
-          <nav className="hidden sm:flex flex-nowrap gap-3 items-center justify-center">
+          <nav className="hidden sm:flex gap-3">
             {categories.map((cat) => (
-              <a key={cat.id} href={`#${cat.id}`} className="shrink-0">
+              <a key={cat.id} href={`#${cat.id}`}>
                 <Button
                   variant="ghost"
-                  className="text-yellow-400 hover:bg-yellow-500/20 hover:text-yellow-300 transition-colors duration-300 text-sm md:text-base"
+                  className="text-yellow-400 hover:bg-yellow-500/20 hover:text-yellow-300 text-sm md:text-base"
                 >
                   {cat.label}
                 </Button>
@@ -102,13 +79,13 @@ export default function Home() {
           </nav>
         </div>
         {isMenuOpen && (
-          <nav className="sm:hidden bg-black/95 border-t border-yellow-500/30">
-            <div className="max-w-screen-xl mx-auto px-4 py-4 flex flex-col gap-2">
+          <nav className="sm:hidden bg-black border-t border-yellow-500/30">
+            <div className="px-4 py-4 flex flex-col gap-2">
               {categories.map((cat) => (
                 <a
                   key={cat.id}
                   href={`#${cat.id}`}
-                  className="py-2 px-4 text-yellow-400 hover:bg-yellow-500/20 rounded-lg transition-colors duration-300"
+                  className="py-2 px-4 text-yellow-400 hover:bg-yellow-500/20 rounded-lg"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {cat.label}
@@ -119,39 +96,33 @@ export default function Home() {
         )}
       </header>
 
-      <main className="pt-16 sm:pt-20">
-        {images.map((img, index) => (
-          <motion.section
-            key={index}
-            id={img.id}
-            data-index={index}
-            className="lazy-section relative w-full h-screen scroll-mt-24 flex items-center justify-center"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            viewport={{ once: true, margin: "-50px" }}
-          >
-            <div className="relative w-full h-full max-w-screen-xl mx-auto px-4 sm:px-6">
-              {visibleSections.includes(index) && (
-                <Image
-                  src={img.src}
-                  alt={img.alt}
-                  fill
-                  loading={index === 0 ? "eager" : "lazy"}
-                  decoding="async"
-                  placeholder={index < 2 ? "blur" : "empty"}
-                  blurDataURL={index < 2 ? "/placeholder.webp" : undefined}
-                  className="object-contain w-full h-full"
-                  sizes="100vw"
-                  onError={(e) => {
-                    e.currentTarget.src = "/fallback.webp";
-                  }}
-                />
-              )}
-            </div>
-          </motion.section>
-        ))}
-      </main>
+     <main className="pt-30">
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-0">
+    {images.map((img, index) => (
+      <motion.div
+        key={index}
+        className="relative w-full aspect-[3/4]  md:aspect-[5/6] "
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+      >
+        <Image
+          src={img.src}
+          alt={img.alt}
+          fill
+          className="object-cover"
+          sizes="100vw"
+          priority={index === 0}
+          onError={(e) => {
+            e.currentTarget.src = "/fallback.webp";
+          }}
+        />
+      </motion.div>
+    ))}
+  </div>
+</main>
+
     </div>
   );
 }
