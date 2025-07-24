@@ -4,55 +4,35 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { MenuIcon, XIcon } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const images = [
-  // Новинки — id: "2"
   { src: "/new1.webp", alt: "New 1", id: "2" },
   { src: "/new2.webp", alt: "New 2", id: "2" },
   { src: "/new3.webp", alt: "New 3", id: "2" },
   { src: "/new4.webp", alt: "New 4", id: "2" },
   { src: "/new5.webp", alt: "New 5", id: "2" },
-
-  // Сеты — id: "10"
   { src: "/set2.webp", alt: "Set 1", id: "10" },
   { src: "/set1.webp", alt: "Set 2", id: "10" },
-
-  // Роллы — id: "9"
   { src: "/f1.webp", alt: "Sushi 1", id: "9" },
   { src: "/f2.webp", alt: "Sushi 2", id: "9" },
   { src: "/f3.webp", alt: "Sushi 3", id: "9" },
   { src: "/mini-rolls.webp", alt: "Mini Rolls", id: "9" },
   { src: "/firmeni1.webp", alt: "Firm Rolls", id: "9" },
-
-  // Десерты — id: "3"
   { src: "/desert.webp", alt: "Dessert", id: "3" },
-
-  // Фаст фуд — id: "4"
   { src: "/fastfood.webp", alt: "Fast Food", id: "4" },
   { src: "/pizza.webp", alt: "Pizza", id: "4" },
   { src: "/pizza1.webp", alt: "Pizza 1", id: "4" },
   { src: "/pizza2.webp", alt: "Pizza 2", id: "4" },
-
-  // Горячие блюда — id: "6"
   { src: "/hot-zakuski.webp", alt: "Hot Dish", id: "6" },
   { src: "/hot.webp", alt: "Hot Dish", id: "6" },
-
-  // Жаренные роллы — id: "7"
   { src: "/jareni.webp", alt: "Jareni", id: "7" },
-
-  // Супы — id: "8"
   { src: "/sup3.webp", alt: "Soup", id: "8" },
-
-  // Салаты — id: "5"
   { src: "/salad.webp", alt: "Salad", id: "5" },
-
-  // Напитки — id: "1"
   { src: "/drink.webp", alt: "Drink", id: "1" },
   { src: "/drink1.webp", alt: "Drink 1", id: "1" },
   { src: "/drink2.webp", alt: "Drink 2", id: "1" },
 ];
-
 
 const categories = [
   { label: "Новинки", id: "2" },
@@ -67,13 +47,32 @@ const categories = [
   { label: "Напитки", id: "1" },
 ];
 
-
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [visibleSections, setVisibleSections] = useState<number[]>([]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const index = Number(entry.target.getAttribute("data-index"));
+          if (entry.isIntersecting && !visibleSections.includes(index)) {
+            setVisibleSections((prev) => [...prev, index]);
+          }
+        });
+      },
+      { threshold: 0.25 }
+    );
+
+    const sections = document.querySelectorAll(".lazy-section");
+    sections.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, [visibleSections]);
 
   return (
     <div className="bg-black text-white min-h-screen">
@@ -125,29 +124,30 @@ export default function Home() {
           <motion.section
             key={index}
             id={img.id}
+            data-index={index}
+            className="lazy-section relative w-full h-screen scroll-mt-24 flex items-center justify-center"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
             viewport={{ once: true, margin: "-50px" }}
-            className="relative w-full h-screen scroll-mt-24 flex items-center justify-center"
           >
             <div className="relative w-full h-full max-w-screen-xl mx-auto px-4 sm:px-6">
-             <Image
-  src={img.src}
-  alt={img.alt}
-  fill
-  loading={index === 0 ? "eager" : "lazy"}
-  decoding="async"
-  placeholder={index < 2 ? "blur" : "empty"}
-  blurDataURL={index < 2 ? "/placeholder.webp" : undefined}
-  className="object-contain w-full h-full"
-  sizes="100vw"
-  onError={(e) => {
-    e.currentTarget.src = "/fallback.webp";
-  }}
-/>
-
-           
+              {visibleSections.includes(index) && (
+                <Image
+                  src={img.src}
+                  alt={img.alt}
+                  fill
+                  loading={index === 0 ? "eager" : "lazy"}
+                  decoding="async"
+                  placeholder={index < 2 ? "blur" : "empty"}
+                  blurDataURL={index < 2 ? "/placeholder.webp" : undefined}
+                  className="object-contain w-full h-full"
+                  sizes="100vw"
+                  onError={(e) => {
+                    e.currentTarget.src = "/fallback.webp";
+                  }}
+                />
+              )}
             </div>
           </motion.section>
         ))}
