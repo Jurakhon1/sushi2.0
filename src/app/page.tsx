@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { MenuIcon, XIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 
 const images = [
@@ -36,7 +36,7 @@ const images = [
 
 const categories = [
   { label: "Новинки", id: "2" },
-  { label: "Ceты", id: "10" },
+  { label: "Сеты", id: "10" },
   { label: "Роллы", id: "9" },
   { label: "Десерты", id: "3" },
   { label: "Фаст фуд", id: "4" },
@@ -53,6 +53,7 @@ export default function Home() {
 
   return (
     <div className="bg-black text-white min-h-screen w-full overflow-x-hidden">
+      {/* Header меню */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-yellow-500/30 shadow-lg">
         <div className="max-w-screen-xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2 text-yellow-400 font-bold text-xl sm:text-2xl">
@@ -96,33 +97,43 @@ export default function Home() {
         )}
       </header>
 
-     <main className="pt-30">
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-0">
-    {images.map((img, index) => (
-      <motion.div
-        key={index}
-        className="relative w-full aspect-[3/4]  md:aspect-[5/6] "
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
-      >
-        <Image
-          src={img.src}
-          alt={img.alt}
-          fill
-          className="object-cover"
-          sizes="100vw"
-          priority={index === 0}
-          onError={(e) => {
-            e.currentTarget.src = "/fallback.webp";
-          }}
-        />
-      </motion.div>
-    ))}
-  </div>
-</main>
-
+      <main className="pt-32">
+        {categories.map((category) => (
+          <section
+            key={category.id}
+            id={category.id}
+            className=""
+          >
+            <h2 className="text-3xl font-bold mb-4">{category.label}</h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 sm:grid-cols-1 gap-4">
+              {images
+                .filter((img) => img.id === category.id)
+                .map((img, index) => (
+                  <motion.div
+                    key={index}
+                    className="relative w-full aspect-[3/4]"
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    viewport={{ once: true }}
+                  >
+                    <Image
+                      src={img.src}
+                      alt={img.alt}
+                      fill
+                      className="object-cover"
+                      sizes="100vw"
+                      priority={index === 0}
+                      onError={(e) => {
+                        e.currentTarget.src = "/fallback.webp";
+                      }}
+                    />
+                  </motion.div>
+                ))}
+            </div>
+          </section>
+        ))}
+      </main>
     </div>
   );
 }
