@@ -105,7 +105,7 @@ export default function Home() {
             className=""
           >
             <h2 className="text-3xl font-bold mb-4">{category.label}</h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 sm:grid-cols-1 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 sm:grid-cols-1 gap-4">
               {images
                 .filter((img) => img.id === category.id)
                 .map((img, index) => (
