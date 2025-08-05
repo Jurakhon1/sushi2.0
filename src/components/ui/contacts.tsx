@@ -18,6 +18,11 @@ export default function Contacts({ active, setActive }: ContactsProps) {
             href: 'https://wa.me/556269090'
         },
         {
+            icon: <PhoneCall className="text-white" size={24} />,
+            bg: 'bg-[#25D366]',
+            href: 'tel:+992556269090'
+        },
+        {
             icon: <FaTelegram className="text-white" size={24} />,
             bg: 'bg-[#0088CC]',
             href: 'https://t.me/+992556269090'
