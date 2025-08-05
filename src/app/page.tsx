@@ -2,9 +2,10 @@
 
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { MenuIcon, XIcon } from "lucide-react";
+import { MenuIcon, MessageSquareShare, Phone, PhoneCall, XIcon } from "lucide-react";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import Contacts from "@/components/ui/contacts";
 
 const images = [
   { src: "/new1.webp", alt: "New 1", id: "2" },
@@ -14,11 +15,12 @@ const images = [
   { src: "/new5.webp", alt: "New 5", id: "2" },
   { src: "/set2.webp", alt: "Set 1", id: "10" },
   { src: "/set1.webp", alt: "Set 2", id: "10" },
-  { src: "/f1.webp", alt: "Sushi 1", id: "9" },
-  { src: "/f2.webp", alt: "Sushi 2", id: "9" },
-  { src: "/f3.webp", alt: "Sushi 3", id: "9" },
-  { src: "/mini-rolls.webp", alt: "Mini Rolls", id: "9" },
   { src: "/firmeni1.webp", alt: "Firm Rolls", id: "9" },
+  { src: "/f2.webp", alt: "Sushi 2", id: "9" },
+  { src: "/f1.webp", alt: "Sushi 1", id: "9" },
+  { src: "/zapecheni.webp", alt: "Zapecheni", id: "11" },
+  { src: "/f3.webp", alt: "", id: "11" },
+  { src: "/mini-rolls.webp", alt: "Mini Rolls", id: "9" },
   { src: "/desert.webp", alt: "Dessert", id: "3" },
   { src: "/fastfood.webp", alt: "Fast Food", id: "4" },
   { src: "/pizza.webp", alt: "Pizza", id: "4" },
@@ -37,19 +39,21 @@ const images = [
 const categories = [
   { label: "Новинки", id: "2" },
   { label: "Сеты", id: "10" },
-  { label: "Роллы", id: "9" },
-  { label: "Десерты", id: "3" },
-  { label: "Фаст фуд", id: "4" },
   { label: "Горячие блюда", id: "6" },
   { label: "Жаренные роллы", id: "7" },
+  { label: "Фирменные роллы", id: "9" },
+  { label: "Запеченные роллы", id: "11" },
   { label: "Супы", id: "8" },
+  { label: "Фаст фуд", id: "4" },
   { label: "Салаты", id: "5" },
+  { label: "Десерты", id: "3" },
   { label: "Напитки", id: "1" },
 ];
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const [active, setActive] = useState(false);
 
   return (
     <div className="bg-black text-white min-h-screen w-full overflow-x-hidden">
@@ -98,6 +102,18 @@ export default function Home() {
       </header>
 
       <main className="pt-32">
+       <Contacts active={active} setActive={setActive}/>
+        <div className="relative w-full max-w-[300px] mx-auto mb-8 h-[150px]">
+          <Image
+            src="/logo.webp"
+            alt="Logo"
+            fill
+            className="object-contain"
+            onError={(e) => {
+              e.currentTarget.src = "/fallback.webp";
+            }}
+          />
+        </div>
         {categories.map((category) => (
           <section
             key={category.id}
