@@ -9,17 +9,16 @@ export default function RootLayout({
     <html lang="en">
       <head>
         {/* Google Analytics */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-CRXJVEHW2V"></script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-DERCC03YY2"></script>
         <script
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', 'G-CRXJVEHW2V');
+              gtag('config', 'G-DERCC03YY2');
             `,
           }}
-          
         />
       </head>
       <body className="bg-black">
