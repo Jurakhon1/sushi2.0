@@ -19,6 +19,7 @@ export default function RootLayout({
               gtag('config', 'G-CRXJVEHW2V');
             `,
           }}
+          
         />
       </head>
       <body className="bg-black">
