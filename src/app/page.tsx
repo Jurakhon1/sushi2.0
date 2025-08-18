@@ -32,8 +32,8 @@ const images = [
   { src: "/sup3.webp", alt: "Soup", id: "8" },
   { src: "/salad.webp", alt: "Salad", id: "5" },
   // { src: "/drink.webp", alt: "Drink", id: "1" },
-  { src: "/drink3.jpg", alt: "Drink 1", id: "1" },
-  { src: "/drink4.jpg", alt: "Drink 2", id: "1" },
+  { src: "/drink4.jpg", alt: "Drink 1", id: "1" },
+  { src: "/drink3.jpg", alt: "Drink 2", id: "1" },
 
 
 ];
