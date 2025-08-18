@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { PhoneCall, X } from 'lucide-react';
-import { FaWhatsapp, FaTelegram, FaViber, FaInstagram } from 'react-icons/fa';
+import { FaWhatsapp, FaTelegram, FaInstagram } from 'react-icons/fa';
 
 interface ContactsProps {
     active: boolean;

@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { MenuIcon, MessageSquareShare, Phone, PhoneCall, XIcon } from "lucide-react";
+import { MenuIcon, XIcon } from "lucide-react";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Contacts from "@/components/ui/contacts";
