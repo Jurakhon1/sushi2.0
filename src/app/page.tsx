@@ -31,9 +31,11 @@ const images = [
   { src: "/jareni.webp", alt: "Jareni", id: "7" },
   { src: "/sup3.webp", alt: "Soup", id: "8" },
   { src: "/salad.webp", alt: "Salad", id: "5" },
-  { src: "/drink.webp", alt: "Drink", id: "1" },
-  { src: "/drink1.webp", alt: "Drink 1", id: "1" },
-  { src: "/drink2.webp", alt: "Drink 2", id: "1" },
+  // { src: "/drink.webp", alt: "Drink", id: "1" },
+  { src: "/drink3.jpg", alt: "Drink 1", id: "1" },
+  { src: "/drink4.jpg", alt: "Drink 2", id: "1" },
+
+
 ];
 
 const categories = [
